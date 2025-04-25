@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv, type Rollup, type UserConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { minifyJsonPlugin } from "./src/plugins/vite/vite-minify-json-plugin";
+import { viteStaticCopy } from "vite-plugin-static-copy"; // <-- import the plugin
 
 export const defaultConfig: UserConfig = {
   plugins: [tsconfigPaths(), minifyJsonPlugin(["images", "battle-anims"], true)],
@@ -12,7 +13,6 @@ export const defaultConfig: UserConfig = {
     sourcemap: false,
     rollupOptions: {
       onwarn(warning: Rollup.RollupLog, defaultHandler: (warning: string | Rollup.RollupLog) => void) {
-        // Suppress "Module level directives cause errors when bundled" warnings
         if (warning.code === "MODULE_LEVEL_DIRECTIVE") {
           return;
         }
@@ -27,7 +27,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     ...defaultConfig,
-    base: "",
+    base: '/pokerogue/', // <-- Add this line for GitHub Pages
     esbuild: {
       pure: mode === "production" ? ["console.log"] : [],
       keepNames: true,
@@ -35,5 +35,16 @@ export default defineConfig(({ mode }) => {
     server: {
       port: !Number.isNaN(envPort) ? envPort : 8000,
     },
+    plugins: [
+      ...defaultConfig.plugins,
+      viteStaticCopy({
+        targets: [
+          {
+            src: 'public/config.json', // <-- Copy `config.json` to the build folder
+            dest: '.',
+          },
+        ],
+      }),
+    ],
   };
 });
