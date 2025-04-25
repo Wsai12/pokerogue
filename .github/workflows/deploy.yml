@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    if: github.repository == 'pagefaultgames/pokerogue'
+    if: github.repository == 'Wsai12/pokerogue'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -46,8 +46,4 @@ jobs:
           cf_auth: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           cf_zone: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           files: |
-            https://pokerogue.net/
-            https://pokerogue.net/index.html
-            https://pokerogue.net/manifest.json
-            https://pokerogue.net/manifest.webmanifest
-            https://pokerogue.net/service-worker.js
+            https://wsai12.github.io/pokerogue/
