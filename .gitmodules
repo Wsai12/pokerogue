@@ -1,3 +1,6 @@
 [submodule "public/locales"]
 	path = public/locales
 	url = https://github.com/pagefaultgames/pokerogue-locales
+[submodule "locales"]
+	path = locales
+	url = https://github.com/pagefaultgames/pokerogue-locales
